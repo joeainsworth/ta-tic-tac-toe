@@ -2,9 +2,9 @@
 # 2. Application logic - sequence of actions
 # 3. Translation of steps into code
 # 4. Run code to verify the logic
-
+#
 # draw a board
-
+#
 # loop until a winner or all suqares are taken
 #   player1 picks an empty square
 #   check for winner
@@ -15,6 +15,7 @@
 #   show the winner
 # or else
 #   it's a tie
+
 require 'pry'
 
 def draw_board(b)
@@ -52,7 +53,8 @@ def computer_pick_square(b)
 end
 
 def winner(b)
-  winning_lines = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+  winning_lines = [[1,2,3], [4,5,6], [7,8,9], [1,4,7],
+                   [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
   winning_lines.each do |line|
     return "Player" if b.values_at(*line).count('X') == 3
     return "Computer" if b.values_at(*line).count('O') == 3
@@ -68,5 +70,11 @@ loop do
   draw_board(board)
   computer_pick_square(board)
   draw_board(board)
-  break if get_empty_squares(board).empty? || winner(board)
+  if winner(board)
+    puts "\n#{winner(board)} is the winner!"
+    break
+  elsif get_empty_squares(board).empty?
+    puts "\nAll squares taken, no winner!"
+    break
+  end
 end
