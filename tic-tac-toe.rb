@@ -33,7 +33,7 @@ def initialize_board
   board
 end
 
-def get_empty_squares(b)
+def empty_squares(b)
   b.select { |k,v| v == " " }.keys
 end
 
@@ -41,7 +41,7 @@ def player_pick_square(b)
   loop do
     puts "\nPick a square:"
     square = gets.chomp.to_i
-    if get_empty_squares(b).include?(square)
+    if empty_squares(b).include?(square)
       b[square] = "X"
       break
     end
@@ -49,7 +49,7 @@ def player_pick_square(b)
 end
 
 def computer_pick_square(b)
-  b[get_empty_squares(b).sample] = "O"
+  b[empty_squares(b).sample] = "O"
 end
 
 def winner(b)
@@ -68,12 +68,19 @@ draw_board(board)
 loop do
   player_pick_square(board)
   draw_board(board)
-  computer_pick_square(board)
-  draw_board(board)
   if winner(board)
     puts "\n#{winner(board)} is the winner!"
     break
-  elsif get_empty_squares(board).empty?
+  elsif empty_squares(board).empty?
+    puts "\nAll squares taken, no winner!"
+    break
+  end
+  computer_pick_square(board)
+  draw_board(board)
+    if winner(board)
+    puts "\n#{winner(board)} is the winner!"
+    break
+  elsif empty_squares(board).empty?
     puts "\nAll squares taken, no winner!"
     break
   end
